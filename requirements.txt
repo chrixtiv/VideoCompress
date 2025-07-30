@@ -7,3 +7,4 @@ Pyrogram==1.4.16
 motor
 aiofiles==23.2.1
 dnspython
+ntplib==0.4.0
