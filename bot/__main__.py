@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # (c) Shrimadhav U K | Updated by OpenAI Assistant
-
+import time
+time._orig_time = time.time  # Save original time function
 import os
 from pyrogram import Client, filters
 from pyrogram.handlers import MessageHandler, CallbackQueryHandler
@@ -70,4 +71,19 @@ if __name__ == "__main__":
     app.add_handler(CallbackQueryHandler(button))
 
     # RUN BOT
-    app.run()
+    import ntplib
+import time
+from datetime import datetime, timezone
+
+# Time sync workaround for Render
+try:
+    ntp = ntplib.NTPClient()
+    response = ntp.request('pool.ntp.org')
+    offset = response.offset
+    print(f"NTP time offset: {offset}")
+    time.time = lambda: time._orig_time() + offset
+except Exception as e:
+    print(f"NTP time sync failed: {e}")
+
+# Run the bot
+app.run()
